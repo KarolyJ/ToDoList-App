@@ -1,5 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useState } from "react";
 
 import ListItem from "./components/ListItem";
@@ -12,49 +20,53 @@ function formatDate(date) {
 }
 
 export default function App() {
-  const [ToDoName, setToDoName] = useState("");
+  const [Task, setTask] = useState("");
   const [ToDoList, setToDoList] = useState([]);
 
-  const onAddBtnClick = (Text) => {
-    if (Text !== "") {
-      const newItem = (
-        <View>
-          <ListItem
-            key={nextId}
-            ListText={Text}
-            delFromList={() => delFromList(nextId)}
-          />
-          <button
-            onClick={() => {
-              setToDoList(ToDoList.filter((a) => a.id !== ToDoList.id));
-            }}
-          ></button>
-        </View>
-      );
-      setToDoList((prevList) => [...prevList, newItem]);
-      setToDoName(""); // Clear the input after adding an item
-      nextId++; // Increment the nextId for the next item
-      console.log(ToDoList);
-    } else {
-      console.log("write something");
+  const handleAddTask = () => {
+    if (Task.trim() !== "") {
+      //create new task with unique ID
+      const newTask = { id: Math.random(), text: Task };
+
+      //update the task array
+      setToDoList([...ToDoList, newTask]);
+      //clear input field
+      setTask("");
     }
   };
 
-  const delFromList = (itemId) => {
-    const updatedList = ToDoList.filter((item) => item.key !== itemId);
-    console.log(ToDoList);
+  const renderItem = ({ item }) => (
+    <View>
+      <Text>{item.text}</Text>
+      <TouchableOpacity onPress={() => handleDeleteFromList(item.id)}>
+        <Text style={styles.deleteButton}>Delete</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const handleDeleteFromList = (itemId) => {
+    const updatedList = ToDoList.filter((ToDoName) => ToDoName.id !== itemId);
     setToDoList(updatedList);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>To Do List for {formatDate(today)}</Text>
-      <View style={styles.mainContainer}>{ToDoList}</View>
-      <View style={styles.buttomContainer}>
-        <Button title="+" onPress={() => onAddBtnClick(ToDoName)} />
+      <View style={styles.mainContainer}>
+        <FlatList
+          data={ToDoList}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handleAddTask}>
+          <Text>Add Task</Text>
+        </TouchableOpacity>
         <TextInput
           placeholder="Write here"
-          onChange={(e) => setToDoName(e.target.value)}
+          value={Task}
+          onChangeText={(text) => setTask(text)}
           style={{ height: 28 }}
         />
       </View>
@@ -73,8 +85,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "",
   },
-  buttomContainer: {
+  buttonContainer: {
     alignItems: "center",
     flexDirection: "row",
+  },
+  deleteButton: {
+    color: "red",
   },
 });

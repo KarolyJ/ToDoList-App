@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -12,12 +12,9 @@ export default function ListItem({ ListText, delFromList }) {
         text={ListText}
         iconStyle={{ borderColor: "red" }}
       />
-      <Icon
-        name="close"
-        size={20}
-        onPress={delFromList}
-        style={{ marginLeft: 20 }}
-      />
+      <TouchableOpacity onPress={delFromList}>
+        <Icon name="close" size={20} style={{ marginLeft: 20 }} />
+      </TouchableOpacity>
     </View>
   );
 }
