@@ -18,18 +18,32 @@ export default function App() {
   const onAddBtnClick = (Text) => {
     if (Text !== "") {
       const newItem = (
-        <ListItem
-          key={ToDoList.length}
-          ListText={Text}
-          delFromList={delFromList}
-        />
+        <View>
+          <ListItem
+            key={nextId}
+            ListText={Text}
+            delFromList={() => delFromList(nextId)}
+          />
+          <button
+            onClick={() => {
+              setToDoList(ToDoList.filter((a) => a.id !== ToDoList.id));
+            }}
+          ></button>
+        </View>
       );
-      setToDoList([...ToDoList, newItem]);
-    } else console.log("write something");
+      setToDoList((prevList) => [...prevList, newItem]);
+      setToDoName(""); // Clear the input after adding an item
+      nextId++; // Increment the nextId for the next item
+      console.log(ToDoList);
+    } else {
+      console.log("write something");
+    }
   };
 
-  const delFromList = () => {
-    setToDoList(ToDoList.filter((a) => a.key !== ToDoList.key));
+  const delFromList = (itemId) => {
+    const updatedList = ToDoList.filter((item) => item.key !== itemId);
+    console.log(ToDoList);
+    setToDoList(updatedList);
   };
 
   return (
