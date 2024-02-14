@@ -77,7 +77,7 @@ export default function DoListPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "green",
+    backgroundColor: "6a8f7b",
     justifyContent: "center",
     padding: 20,
   },
