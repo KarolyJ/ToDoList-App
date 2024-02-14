@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -10,10 +9,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-import ListItem from "./components/ListItem";
-
 const today = new Date();
-let nextId = 0;
 
 function formatDate(date) {
   return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
@@ -52,7 +48,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>To Do List for {formatDate(today)}</Text>
-      <View style={styles.mainContainer}>
+      <View>
         <FlatList
           data={ToDoList}
           renderItem={renderItem}
@@ -78,9 +74,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f4e6",
-    alignItems: "center",
+    backgroundColor: "green",
     justifyContent: "center",
+    padding: 20,
   },
   mainContainer: {
     backgroundColor: "",
