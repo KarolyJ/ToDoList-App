@@ -7,23 +7,30 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../Firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
-export default function LoginPage({ navigation }) {
+export default function CreateAccountPage({ navigation }) {
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
 
-  const signIn = async () => {
+  const signUp = async () => {
     setLoading(true);
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log(response);
+      alert("Now you can LogIn");
+      navigation.navigate("LogInScreen");
     } catch (error) {
       console.log(error);
-      alert("Sign in failed: " + error);
+      alert(error);
     } finally {
       setLoading(false);
     }
@@ -34,39 +41,31 @@ export default function LoginPage({ navigation }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
+          placeholder="Name"
+          onChangeText={(text) => setName(text)}
+        ></TextInput>
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
           placeholder="Email"
-          onChangeText={(email) => setEmail(email)}
-        />
+          onChangeText={(text) => setEmail(text)}
+        ></TextInput>
       </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           placeholder="Password"
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
+          onChangeText={(text) => setPassword(text)}
+        ></TextInput>
       </View>
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
       {loading ? (
         <ActivityIndicator size="large" color="green" />
       ) : (
-        <>
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text style={styles.loginText} onPress={() => signIn()}>
-              Login
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text
-              style={styles.loginText}
-              onPress={() => navigation.navigate("RegisterScreen")}
-            >
-              Create Account
-            </Text>
-          </TouchableOpacity>
-        </>
+        <TouchableOpacity style={styles.registerBtn}>
+          <Text onPress={() => signUp()}>Register</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginBottom: 30,
   },
-  loginBtn: {
+  registerBtn: {
     width: "80%",
     borderRadius: 25,
     height: 50,

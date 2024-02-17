@@ -8,12 +8,14 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import { NavigationProp } from "@react-navigation/native";
+import { FIREBASE_AUTH } from "../../Firebase";
 
 // function formatDate(date) {
 //     return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
 //   }
 
-export default function DoListPage() {
+export default function DoListPage({ navigation }) {
   const today = new Date();
   const [Task, setTask] = useState("");
   const [ToDoList, setToDoList] = useState([]);
@@ -70,6 +72,11 @@ export default function DoListPage() {
         />
       </View>
       <StatusBar style="auto" />
+      <View>
+        <TouchableOpacity onPress={() => FIREBASE_AUTH.signOut()}>
+          <Text>SIGN OUT</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -77,7 +84,7 @@ export default function DoListPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "6a8f7b",
+    backgroundColor: "#6a8f7b",
     justifyContent: "center",
     padding: 20,
   },
