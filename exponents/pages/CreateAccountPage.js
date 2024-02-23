@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Button,
 } from "react-native";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -63,9 +64,17 @@ export default function CreateAccountPage({ navigation }) {
       {loading ? (
         <ActivityIndicator size="large" color="green" />
       ) : (
-        <TouchableOpacity style={styles.registerBtn}>
-          <Text onPress={() => signUp()}>Register</Text>
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity style={styles.registerBtn}>
+            <Button onPress={() => signUp()} title="Register"></Button>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Button
+              title="Back"
+              onPress={() => navigation.navigate("LogInScreen")}
+            ></Button>
+          </TouchableOpacity>
+        </>
       )}
     </View>
   );

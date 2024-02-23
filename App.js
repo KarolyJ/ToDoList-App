@@ -60,13 +60,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <>
-            <Stack.Screen
-              name="Home"
-              component={InsideLayout}
-              options={{ headerShown: false }}
-            />
-          </>
+          <Stack.Screen
+            name="Home"
+            component={InsideLayout}
+            options={{ headerShown: false }}
+          />
         ) : (
           <>
             <Stack.Screen
