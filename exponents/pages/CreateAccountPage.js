@@ -6,6 +6,7 @@ import {
   TextInput,
   ActivityIndicator,
   Button,
+  Pressable,
 } from "react-native";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -65,15 +66,24 @@ export default function CreateAccountPage({ navigation }) {
         <ActivityIndicator size="large" color="green" />
       ) : (
         <>
-          <TouchableOpacity style={styles.registerBtn}>
-            <Button onPress={() => signUp()} title="Register"></Button>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Button
-              title="Back"
-              onPress={() => navigation.navigate("LogInScreen")}
-            ></Button>
-          </TouchableOpacity>
+          <Pressable
+            style={({ pressed }) => [
+              pressed ? { opacity: 0.9 } : {},
+              styles.registerBtn,
+            ]}
+            onPress={() => signUp()}
+          >
+            <View>
+              <Text>Register</Text>
+            </View>
+          </Pressable>
+
+          <Pressable
+            onPress={() => navigation.navigate("LogInScreen")}
+            style={styles.backButton}
+          >
+            <Text>Back</Text>
+          </Pressable>
         </>
       )}
     </View>
@@ -101,10 +111,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 20,
   },
-  forgot_button: {
-    height: 30,
-    marginBottom: 30,
-  },
   registerBtn: {
     width: "80%",
     borderRadius: 25,
@@ -113,5 +119,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
     backgroundColor: "#32754f",
+  },
+  backButton: {
+    height: 50,
+    width: "80%",
+    margin: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

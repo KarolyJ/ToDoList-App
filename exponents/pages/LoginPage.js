@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import { useState } from "react";
 import { FIREBASE_AUTH } from "../../Firebase";
@@ -53,19 +54,28 @@ export default function LoginPage({ navigation }) {
         <ActivityIndicator size="large" color="green" />
       ) : (
         <>
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text style={styles.loginText} onPress={() => signIn()}>
-              Login
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn}>
-            <Text
-              style={styles.loginText}
-              onPress={() => navigation.navigate("RegisterScreen")}
-            >
-              Create Account
-            </Text>
-          </TouchableOpacity>
+          <Pressable
+            style={({ pressed }) => [
+              pressed ? { opacity: 0.7 } : {},
+              styles.loginBtn,
+            ]}
+            onPress={() => signIn()}
+          >
+            <View>
+              <Text>Log In</Text>
+            </View>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              pressed ? { opacity: 0.9 } : {},
+              styles.loginBtn,
+            ]}
+            onPress={() => navigation.navigate("RegisterScreen")}
+          >
+            <View>
+              <Text>Create Account</Text>
+            </View>
+          </Pressable>
         </>
       )}
     </View>
