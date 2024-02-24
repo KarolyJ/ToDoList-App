@@ -1,4 +1,4 @@
-# A ToDO App
+# A ToDo App
 A clean To-Do application with react native,
 
 ## Descritpion
