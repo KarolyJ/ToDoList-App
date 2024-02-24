@@ -23,6 +23,7 @@ export default function LoginPage({ navigation }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
     } catch (error) {
+      gm;
       console.log(error);
       alert("Sign in failed: " + error);
     } finally {
