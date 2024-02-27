@@ -9,7 +9,12 @@ import {
   Pressable,
 } from "react-native";
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updatePhoneNumber,
+  updateProfile,
+} from "firebase/auth";
 import { FIREBASE_AUTH } from "../../Firebase";
 
 export default function CreateAccountPage({ navigation }) {
@@ -34,6 +39,10 @@ export default function CreateAccountPage({ navigation }) {
       console.log(error);
       alert(error);
     } finally {
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+      sendEmailVerification(auth.currentUser);
       setLoading(false);
     }
   };

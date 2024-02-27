@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,41 +7,84 @@ import {
   FlatList,
   TouchableOpacity,
   Pressable,
-  ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { FIREBASE_AUTH } from "../../Firebase";
+import { FIREBASE_DB } from "../../Firebase";
+import {
+  doc,
+  addDoc,
+  collection,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 
 export default function DoListPage({ navigation }) {
   const today = new Date();
-  const [Task, setTask] = useState("");
-  const [ToDoList, setToDoList] = useState([]);
+  const [task, setTask] = useState("");
+  const [todolist, setTodolist] = useState([]);
+  const auth = FIREBASE_AUTH;
+
+  const queryUser = query(
+    collection(FIREBASE_DB, "accounts"),
+    where("userId", "==", auth.currentUser.uid)
+  );
+
+  useEffect(() => {
+    onSnapshot(
+      queryUser,
+      (snapshot) => {
+        setTodolist(
+          snapshot.docs.map((doc) => ({
+            item: doc.data(),
+            id: doc.id,
+          }))
+        );
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
+  }, [task]);
 
   const formatDate = (date) => {
     return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
   };
 
+  // const handleAddTask = () => {
+  //   if (task.trim() !== "") {
+  //     const newTask = { id: Math.random().toString(), text: task };
+  //     setTodolist([...todolist, newTask]);
+  //     setTask("");
+  //   }
+  // };
+
   const handleAddTask = () => {
-    if (Task.trim() !== "") {
-      const newTask = { id: Math.random().toString(), text: Task };
-      setToDoList([...ToDoList, newTask]);
+    if (task.trim() !== "") {
+      addDoc(collection(FIREBASE_DB, "accounts"), {
+        todos: task,
+        userId: auth.currentUser.uid,
+        timestamp: serverTimestamp(),
+      });
       setTask("");
     }
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text>{item.text}</Text>
-      <TouchableOpacity onPress={() => handleDeleteFromList(item.id)}>
-        <Text style={styles.deleteButton}>Delete</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  const handleDeleteFromList = (itemId) => {
-    const updatedList = ToDoList.filter((ToDoName) => ToDoName.id !== itemId);
-    setToDoList(updatedList);
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.itemContainer}>
+        <Text>{item.item.todos}</Text>
+        <TouchableOpacity
+          onPress={() => deleteDoc(doc(FIREBASE_DB, "accounts", item.id))}
+        >
+          <Text style={styles.deleteButton}>Delete</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   return (
@@ -49,7 +92,7 @@ export default function DoListPage({ navigation }) {
       <Text style={styles.header}>To Do List for {formatDate(today)}</Text>
       <View style={styles.listContainer}>
         <FlatList
-          data={ToDoList}
+          data={todolist}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ flexGrow: 1 }} // Ensures the FlatList fills its container
@@ -59,7 +102,7 @@ export default function DoListPage({ navigation }) {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Write here"
-            value={Task}
+            value={task}
             onChangeText={(text) => setTask(text)}
             style={{ flex: 1, marginRight: 20 }}
           />
