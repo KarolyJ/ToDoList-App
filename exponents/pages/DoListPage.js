@@ -21,7 +21,9 @@ import {
   deleteDoc,
   query,
   where,
+  orderBy,
 } from "firebase/firestore";
+import CostumMenu from "../components/CostumMenu";
 
 export default function DoListPage({ navigation }) {
   const today = new Date();
@@ -31,7 +33,8 @@ export default function DoListPage({ navigation }) {
 
   const queryUser = query(
     collection(FIREBASE_DB, "accounts"),
-    where("userId", "==", auth.currentUser.uid)
+    where("userId", "==", auth.currentUser.uid),
+    orderBy("timestamp", "asc")
   );
 
   useEffect(() => {
@@ -89,7 +92,11 @@ export default function DoListPage({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-      <Text style={styles.header}>To Do List for {formatDate(today)}</Text>
+      <View>
+        <CostumMenu />
+        <Text style={styles.header}>To Do List for {formatDate(today)}</Text>
+      </View>
+
       <View style={styles.listContainer}>
         <FlatList
           data={todolist}
@@ -129,6 +136,12 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1, // Ensure the list container takes remaining space after the header and button container
   },
+  headContainer: {
+    flexDirection: "row", // Add flexDirection
+    // alignItems: "center",
+    // justifyContent: "center",
+    marginBottom: 20,
+  },
   buttonContainer: {
     paddingBottom: 20,
   },
@@ -149,7 +162,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     alignSelf: "center",
-    paddingBottom: 20,
+    margin: 5,
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
   signOutButton: {
     color: "white",
