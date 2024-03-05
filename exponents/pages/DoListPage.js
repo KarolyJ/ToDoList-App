@@ -25,6 +25,8 @@ import {
 } from "firebase/firestore";
 import CostumMenu from "../components/CostumMenu";
 
+//TODO fix  the position of the pop up menu
+
 export default function DoListPage({ navigation }) {
   const today = new Date();
   const [task, setTask] = useState("");
@@ -93,9 +95,9 @@ export default function DoListPage({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
       <View>
-        <CostumMenu />
         <Text style={styles.header}>To Do List for {formatDate(today)}</Text>
       </View>
+      <CostumMenu />
 
       <View style={styles.listContainer}>
         <FlatList
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     margin: 5,
-    marginVertical: 10,
+    marginVertical: -5,
     marginHorizontal: 10,
   },
   signOutButton: {

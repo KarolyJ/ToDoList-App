@@ -23,7 +23,6 @@ export default function LoginPage({ navigation }) {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
     } catch (error) {
-      gm;
       console.log(error);
       alert("Sign in failed: " + error);
     } finally {
@@ -48,9 +47,11 @@ export default function LoginPage({ navigation }) {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <Pressable onPress={() => navigation.navigate("ForgotPasswordScreen")}>
+        <View>
+          <Text style={styles.forgot_button}>Forgot Password?</Text>
+        </View>
+      </Pressable>
       {loading ? (
         <ActivityIndicator size="large" color="green" />
       ) : (
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
     height: 50,
     flex: 1,
     padding: 10,
-    marginLeft: 20,
   },
   forgot_button: {
     height: 30,

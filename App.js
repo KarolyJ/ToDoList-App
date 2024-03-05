@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./Firebase";
 import CreateAccountPage from "./exponents/pages/CreateAccountPage";
+import ForgotPasswordPage from "./exponents/pages/ForgotPasswordPage";
 
 //TODO if only the user is logged in, then he can see his own list of Dos
 
@@ -40,6 +41,11 @@ function OutsideLayout() {
       <OutsideStack.Screen
         name="RegisterScreen"
         component={CreateAccountPage}
+        options={{ headerShown: false }}
+      />
+      <OutsideStack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordPage}
         options={{ headerShown: false }}
       />
     </OutsideStack.Navigator>
