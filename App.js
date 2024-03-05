@@ -61,29 +61,58 @@ export default function App() {
       setUser(user);
     });
   }, []);
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {user ? (
-          <Stack.Screen
-            name="Home"
-            component={InsideLayout}
-            options={{ headerShown: false }}
-          />
-        ) : (
-          <>
+  try {
+    if (user !== null && user.emailVerified) {
+      return (
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={InsideLayout}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    } else {
+      return (
+        <NavigationContainer>
+          <Stack.Navigator>
             <Stack.Screen
               name="SignIn"
               component={OutsideLayout}
               options={{ headerShown: false }}
             />
-            {/* This is the screen we show if the user isn't signed in already (we couldn't find a token). */}
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator>
+  //       {user && user.emailVerified ? (
+  //         <Stack.Screen
+  //           name="Home"
+  //           component={InsideLayout}
+  //           options={{ headerShown: false }}
+  //         />
+  //       ) : (
+  //         <>
+  //           <Stack.Screen
+  //             name="SignIn"
+  //             component={OutsideLayout}
+  //             options={{ headerShown: false }}
+  //           />
+  //           {/* This is the screen we show if the user isn't signed in already (we couldn't find a token). */}
+  //         </>
+  //       )}
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 
   // );
 }

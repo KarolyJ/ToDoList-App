@@ -26,6 +26,9 @@ export default function LoginPage({ navigation }) {
       console.log(error);
       alert("Sign in failed: " + error);
     } finally {
+      if (!auth.currentUser.emailVerified) {
+        alert("Verify your email address to log in");
+      }
       setLoading(false);
     }
   };
