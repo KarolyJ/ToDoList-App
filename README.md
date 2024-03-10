@@ -2,11 +2,11 @@
 A clean To-Do application with react native.
 
 ## Descritpion
-A simple to do react native application to keep track of day-to-day agendas with the possibility to rank them based on importance. There is the option to create an account and store the list on a database.
+A simple to-do React Native application designed to help users keep track of day-to-day agendas. Users have the option to create an account and store their to-do lists in a database.
 
 ## How to run the app
 
-use the terminal inside the folder and launch the application
+Navigate to the project folder in your terminal and launch the application using the following command:
 ```properties
 npx expo start
 ```  
