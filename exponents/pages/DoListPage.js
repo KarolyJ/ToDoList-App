@@ -60,14 +60,6 @@ export default function DoListPage({ navigation }) {
     return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
   };
 
-  // const handleAddTask = () => {
-  //   if (task.trim() !== "") {
-  //     const newTask = { id: Math.random().toString(), text: task };
-  //     setTodolist([...todolist, newTask]);
-  //     setTask("");
-  //   }
-  // };
-
   const handleAddTask = () => {
     if (task.trim() !== "") {
       addDoc(collection(FIREBASE_DB, "accounts"), {

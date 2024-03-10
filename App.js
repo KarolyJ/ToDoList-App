@@ -8,7 +8,7 @@ import { FIREBASE_AUTH } from "./Firebase";
 import CreateAccountPage from "./exponents/pages/CreateAccountPage";
 import ForgotPasswordPage from "./exponents/pages/ForgotPasswordPage";
 
-//TODO if only the user is logged in, then he can see his own list of Dos
+//TODO fix gui lol
 
 /* createNativeStackNavigator is a function that returns an object containing 2 properties:
 Screen and Navigator. Both of them are React components used for configuring the navigator.
@@ -90,29 +90,4 @@ export default function App() {
   } catch (error) {
     console.log(error);
   }
-
-  // return (
-  //   <NavigationContainer>
-  //     <Stack.Navigator>
-  //       {user && user.emailVerified ? (
-  //         <Stack.Screen
-  //           name="Home"
-  //           component={InsideLayout}
-  //           options={{ headerShown: false }}
-  //         />
-  //       ) : (
-  //         <>
-  //           <Stack.Screen
-  //             name="SignIn"
-  //             component={OutsideLayout}
-  //             options={{ headerShown: false }}
-  //           />
-  //           {/* This is the screen we show if the user isn't signed in already (we couldn't find a token). */}
-  //         </>
-  //       )}
-  //     </Stack.Navigator>
-  //   </NavigationContainer>
-  // );
-
-  // );
 }
