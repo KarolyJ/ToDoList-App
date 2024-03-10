@@ -1,5 +1,5 @@
 # A ToDo App
-A clean To-Do application with react native.
+A clean To-Do application built with react native.
 
 ## Descritpion
 A simple to-do React Native application designed to help users keep track of day-to-day agendas. Users have the option to create an account and store their to-do lists in a database.
