@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1, // Ensure the list container takes remaining space after the header and button container
+    top: -300,
   },
   headContainer: {
     flexDirection: "row", // Add flexDirection
